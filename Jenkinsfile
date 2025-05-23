@@ -38,7 +38,7 @@ pipeline {
       echo '✅ Pipeline est enfin TOUJOURS terminé.'
     }
     failure {
-      echo '❌ Échec ENFINNNNdu pipeline.'
+      echo '❌ Échec ENFINNNNdu DERNIERE VERSION pipeline.'
     }
   }
 }
