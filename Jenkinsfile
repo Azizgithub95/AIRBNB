@@ -38,7 +38,7 @@ pipeline {
       echo '✅ Pipeline est enfin terminé.'
     }
     failure {
-      echo '❌ Échec du pipeline.'
+      echo '❌ Échec ENFINNNNdu pipeline.'
     }
   }
 }
