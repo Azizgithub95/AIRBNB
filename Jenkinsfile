@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Checkout code') {
       steps {
-        git 'https://github.com/Azizgithub95/HERMES.git'
+        git 'https://github.com/Azizgithub95/AIRBNB.git'
       }
     }
 
