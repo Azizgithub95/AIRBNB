@@ -8,7 +8,13 @@ pipeline {
   stages {
     stage('Checkout code') {
       steps {
-        git 'https://github.com/Azizgithub95/AIRBNB.git'
+        checkout([$class: 'GitSCM',
+          branches: [[name: '*/main']],
+          userRemoteConfigs: [[
+            url: 'https://github.com/Azizgithub95/AIRBNB.git',
+            credentialsId: '680a2740-a844-41cc-92fb-b7a06309f822'
+          ]]
+        ])
       }
     }
 
