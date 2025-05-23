@@ -19,7 +19,7 @@ pipeline {
       }
     }
 
-    stage('Run all tests in Docker') {
+    stage('Run all tests fond in Docker') {
       steps {
         echo "🚀 Lancement des tests Cypress, Newman et K6 dans le conteneur..."
         sh 'docker run --rm ${IMAGE_NAME}'
@@ -29,7 +29,7 @@ pipeline {
 
   post {
     always {
-      echo '✅ Pipeline terminé.'
+      echo '✅ Pipeline est enfin terminé.'
     }
     failure {
       echo '❌ Échec du pipeline.'
