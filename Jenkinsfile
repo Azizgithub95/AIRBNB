@@ -1,6 +1,10 @@
 pipeline {
   agent any
 
+   triggers {
+    githubPush()
+  }
+
   environment {
     IMAGE_NAME = "hermes-tests"
   }
@@ -35,7 +39,7 @@ pipeline {
 
   post {
     always {
-      echo '✅ Pipeline est enfin retrouvé   TOUJOURS terminé.'
+      echo '✅ Pipeline est enfin retrouvé TOUJOURS terminé et finir .'
     }
     failure {
       echo '❌ Échec ENFINNNNdu DERNIERE VERSION pipeline.'
