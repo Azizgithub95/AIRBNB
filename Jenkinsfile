@@ -1,7 +1,7 @@
 pipeline {
   agent any
 
-   triggers {
+  triggers {
     githubPush()
   }
 
@@ -10,18 +10,6 @@ pipeline {
   }
 
   stages {
-    stage('Checkout code') {
-      steps {
-        checkout([$class: 'GitSCM',
-          branches: [[name: '*/main']],
-          userRemoteConfigs: [[
-            url: 'https://github.com/Azizgithub95/AIRBNB.git',
-            credentialsId: '680a2740-a844-41cc-92fb-b7a06309f822'
-          ]]
-        ])
-      }
-    }
-
     stage('Build Docker image') {
       steps {
         echo "🔧 Construction de l'image Docker..."
@@ -29,7 +17,7 @@ pipeline {
       }
     }
 
-    stage('Run all tests fond in Docker') {
+    stage('Run all tests found in Docker') {
       steps {
         echo "🚀 Lancement des tests Cypress, Newman et K6 dans le conteneur..."
         sh 'docker run --rm ${IMAGE_NAME}'
@@ -39,10 +27,10 @@ pipeline {
 
   post {
     always {
-      echo '✅ Pipeline est enfin retrouvé TOUJOURS terminé et finir .'
+      echo '✅ Pipeline terminé.'
     }
     failure {
-      echo '❌ Échec ENFINNNNdu DERNIERE VERSION pipeline.'
+      echo '❌ Échec du pipeline.'
     }
   }
 }
