@@ -35,7 +35,7 @@ pipeline {
 
   post {
     always {
-      echo '✅ Pipeline est enfin rtttr   TOUJOURS terminé.'
+      echo '✅ Pipeline est enfin retrouvé   TOUJOURS terminé.'
     }
     failure {
       echo '❌ Échec ENFINNNNdu DERNIERE VERSION pipeline.'
