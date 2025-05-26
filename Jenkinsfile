@@ -1,8 +1,10 @@
 pipeline {
   agent any
 
-  environment {
-    IMAGE_NAME = "hermes-tests"
+    environment {
+    IMAGE_NAME      = "hermes-tests"
+    DOCKERHUB_CREDS = 'docker-hub-creds'
+    DOCKERHUB_ORG   = 'aziztesteur95100'
   }
 
   stages {
@@ -19,6 +21,19 @@ pipeline {
         sh "docker run --rm $IMAGE_NAME"
       }
     }
+stage('Docker Build & Push') {
+    steps {
+        script {
+            docker.withRegistry('https://index.docker.io/v1/', "${DOCKERHUB_CREDS}") {
+                def image = docker.build("${DOCKERHUB_ORG}/hermes-test:${BUILD_NUMBER}")
+                image.push()
+            }
+        }
+    }
+}
+
+
+
   }
 
   post {
