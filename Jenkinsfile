@@ -5,10 +5,10 @@ pipeline {
     IMAGE_NAME      = "hermes-tests"
     DOCKERHUB_CREDS = 'docker-hub-creds'
     DOCKERHUB_ORG   = 'aziztesteur95100'
+    GIT_REPO_URL    = 'https://github.com/Azizgithub95/mon-deuxieme-projet-docker.git' // Remplace si besoin
   }
 
   stages {
-
     stage('Clean Workspace') {
       steps {
         echo "🧹 Nettoyage du workspace..."
@@ -19,7 +19,7 @@ pipeline {
     stage('Checkout') {
       steps {
         echo "🔄 Récupération du code source depuis GitHub..."
-        checkout scm
+        sh 'git clone $GIT_REPO_URL .'
       }
     }
 
