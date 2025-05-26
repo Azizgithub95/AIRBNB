@@ -1,13 +1,28 @@
 pipeline {
   agent any
 
-    environment {
+  environment {
     IMAGE_NAME      = "hermes-tests"
     DOCKERHUB_CREDS = 'docker-hub-creds'
     DOCKERHUB_ORG   = 'aziztesteur95100'
   }
 
   stages {
+
+    stage('Clean Workspace') {
+      steps {
+        echo "🧹 Nettoyage du workspace..."
+        deleteDir()
+      }
+    }
+
+    stage('Checkout') {
+      steps {
+        echo "🔄 Récupération du code source depuis GitHub..."
+        checkout scm
+      }
+    }
+
     stage('Build Docker image') {
       steps {
         echo "🔧 Construction de l'image Docker..."
@@ -21,19 +36,17 @@ pipeline {
         sh "docker run --rm $IMAGE_NAME"
       }
     }
-stage('Docker Build & Push') {
-    steps {
+
+    stage('Docker Build & Push') {
+      steps {
         script {
-            docker.withRegistry('https://index.docker.io/v1/', "${DOCKERHUB_CREDS}") {
-                def image = docker.build("${DOCKERHUB_ORG}/hermes-test:${BUILD_NUMBER}")
-                image.push()
-            }
+          docker.withRegistry('https://index.docker.io/v1/', "${DOCKERHUB_CREDS}") {
+            def image = docker.build("${DOCKERHUB_ORG}/hermes-test:${BUILD_NUMBER}")
+            image.push()
+          }
         }
+      }
     }
-}
-
-
-
   }
 
   post {
