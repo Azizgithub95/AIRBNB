@@ -16,12 +16,13 @@ pipeline {
       }
     }
 
-    stage('Checkout') {
-      steps {
-        echo "🔄 Récupération du code source depuis GitHub..."
-        sh 'git clone $GIT_REPO_URL .'
-      }
-    }
+   stage('Checkout') {
+  steps {
+    echo "🔄 Récupération du code source depuis GitHub..."
+    sh "git clone https://github.com/Azizgithub95/AIRBNB.git ."
+  }
+}
+
 
     stage('Build Docker image') {
       steps {
