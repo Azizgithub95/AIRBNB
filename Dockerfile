@@ -2,10 +2,8 @@ FROM node:18
 
 WORKDIR /app
 
-# Copie des fichiers
 COPY . .
 
-# Installation des dépendances
 RUN apt-get update && apt-get install -y \
     gnupg \
     ca-certificates \
@@ -30,8 +28,6 @@ RUN apt-get update && apt-get install -y \
     npm install -g newman && \
     npx cypress install
 
-
 EXPOSE 80
-CMD ["npm", "run", "start","test-all"]
 
-
+CMD ["npm", "run", "start"]

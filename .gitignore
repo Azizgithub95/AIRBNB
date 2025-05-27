@@ -3,6 +3,4 @@ cypress/screenshots/
 cypress/videos/
 .DS_Store
 .env
-
 minikube-linux-amd64
-
