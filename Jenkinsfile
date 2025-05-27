@@ -38,12 +38,17 @@ pipeline {
       }
     }
 
-    stage('Docker Build & Push') {
+   stage('Docker Build & Push') {
       steps {
         script {
-          docker.withRegistry('https://index.docker.io/v1/', "${DOCKERHUB_CREDS}") {
-            def image = docker.build("${DOCKERHUB_ORG}/hermes-test:${BUILD_NUMBER}")
-            image.push()
+          // Remplacer "docker" par l'appel système
+          def TAGGED_IMAGE = "${DOCKERHUB_ORG}/${IMAGE_NAME}:${env.BUILD_NUMBER}"
+          sh "docker tag $IMAGE_NAME $TAGGED_IMAGE"
+          withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDS}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+            sh """
+              echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
+              docker push $TAGGED_IMAGE
+            """
           }
         }
       }
