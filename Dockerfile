@@ -30,5 +30,5 @@ RUN apt-get update && apt-get install -y \
     npm install -g newman && \
     npx cypress install
 
-# Commande par défaut
-CMD ["npm", "run", "test-all"]
+EXPOSE 80
+CMD ["npm", "run", "start","test-all"]
