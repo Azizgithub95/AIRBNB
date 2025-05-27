@@ -37,6 +37,15 @@ pipeline {
         sh "docker run --rm $IMAGE_NAME"
       }
     }
+stage('Deploy to Kubernetes') {
+  steps {
+    sh 'kubectl apply -f deployment.yaml'
+    sh 'kubectl get pods'
+    sh 'kubectl get services'
+  }
+}
+
+
 
    stage('Docker Build enfinnnnn & Push') {
       steps {
