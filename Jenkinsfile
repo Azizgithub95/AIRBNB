@@ -38,7 +38,7 @@ pipeline {
       }
     }
 
-   stage('Docker Build & Push') {
+   stage('Docker Build enfinnnnn & Push') {
       steps {
         script {
           // Remplacer "docker" par l'appel système
