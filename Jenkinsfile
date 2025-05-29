@@ -15,12 +15,13 @@ pipeline {
       }
     }
 
-    stage('Checkout') {
-      steps {
-        echo "🔄 Récupération du code source depuis GitHub..."
-        git credentialsId: 'lier github', url: 'https://github.com/Azizgithub95/AIRBNB.git'
-      }
-    }
+   stage('Checkout') {
+  steps {
+    echo "🔄 Récupération du code source depuis GitHub (branche main)..."
+    git branch: 'main', url: 'https://github.com/Azizgithub95/AIRBNB.git', credentialsId: 'lier github'
+  }
+}
+
 
     stage('Build Docker Image') {
       steps {
