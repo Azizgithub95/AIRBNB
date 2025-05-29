@@ -5,6 +5,7 @@ pipeline {
     IMAGE_NAME      = "hermes-tests"
     DOCKERHUB_CREDS = 'docker-hub-creds'
     DOCKERHUB_ORG   = 'aziztesteur95100'
+    BRANCH_NAME     = 'main'
   }
 
   stages {
@@ -15,13 +16,12 @@ pipeline {
       }
     }
 
-   stage('Checkout') {
-  steps {
-    echo "🔄 Récupération du code source depuis GitHub (branche main)..."
-    git branch: 'main', url: 'https://github.com/Azizgithub95/AIRBNB.git', credentialsId: 'lier github'
-  }
-}
-
+    stage('Checkout') {
+      steps {
+        echo "🔄 Récupération du code source depuis GitHub (branche main)..."
+        git branch: "${BRANCH_NAME}", url: 'https://github.com/Azizgithub95/AIRBNB.git', credentialsId: 'lier github'
+      }
+    }
 
     stage('Build Docker Image') {
       steps {
@@ -32,29 +32,29 @@ pipeline {
 
     stage('Run Cypress Tests') {
       steps {
-        echo "🚀 Exécution des tests Cypress..."
+        echo "🧪 Lancement des tests Cypress..."
         sh "docker run --rm $IMAGE_NAME npx cypress run || true"
       }
     }
 
     stage('Run Newman Tests') {
       steps {
-        echo "🧪 Exécution des tests Postman (Newman)..."
-        sh "docker run --rm $IMAGE_NAME newman run ./tests/postman/collection.json || true"
+        echo "🧪 Lancement des tests Postman avec Newman..."
+        sh "docker run --rm $IMAGE_NAME newman run tests/postman_collection.json || true"
       }
     }
 
     stage('Run K6 Tests (Cassis)') {
       steps {
-        echo "📊 Exécution des tests de charge avec K6..."
-        sh "docker run --rm $IMAGE_NAME k6 run ./tests/k6/test.js || true"
+        echo "🧪 Lancement des tests de performance avec K6..."
+        sh "docker run --rm $IMAGE_NAME k6 run tests/cassis.js || true"
       }
     }
 
     stage('Run FoundHuman Tests') {
       steps {
-        echo "🧠 Exécution des tests FoundHuman (simulés)..."
-        sh "docker run --rm $IMAGE_NAME node ./tests/foundhuman/test.js || true"
+        echo "🧪 Lancement des tests FoundHuman..."
+        sh "docker run --rm $IMAGE_NAME node tests/foundhuman.js || true"
       }
     }
 
@@ -75,10 +75,10 @@ pipeline {
 
     stage('Deploy to Kubernetes') {
       steps {
-        echo "🚢 Déploiement sur Kubernetes..."
-        sh "kubectl apply -f deployment.yaml"
-        sh "kubectl get pods"
-        sh "kubectl get services"
+        echo "🚀 Déploiement sur Kubernetes..."
+        sh 'kubectl apply -f deployment.yaml'
+        sh 'kubectl get pods'
+        sh 'kubectl get services'
       }
     }
   }
