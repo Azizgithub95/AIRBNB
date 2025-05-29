@@ -8,10 +8,11 @@ pipeline {
 
     stages {
         stage('Checkout') {
-            steps {
-                git 'https://github.com/Azizgithub95/AIRBNB.git'
-            }
-        }
+    steps {
+        git credentialsId: 'lier github', url: 'https://github.com/Azizgithub95/AIRBNB.git', branch: 'main'
+    }
+}
+
 
         stage('Build Docker Image') {
             steps {
