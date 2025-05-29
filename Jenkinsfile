@@ -47,7 +47,7 @@ stage('Deploy to Kubernetes') {
 
 
 
-   stage('Docker Build enfinnnnn & Push') {
+   stage('Docker Build enfinnnnn ca marche & Push') {
       steps {
         script {
           // Remplacer "docker" par l'appel système
