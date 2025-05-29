@@ -3,7 +3,7 @@ const app = express();
 const port = 80;
 
 app.get('/', (req, res) => {
-  res.send('Bienvenue sur Hermès Test via Kubernetes !');
+  res.send('Bienvenue sur Hermès Test via Kubernetes V3 !');
 });
 
 app.listen(port, () => {

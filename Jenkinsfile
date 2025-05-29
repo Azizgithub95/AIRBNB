@@ -5,7 +5,7 @@ pipeline {
     IMAGE_NAME      = "hermes-tests"
     DOCKERHUB_CREDS = 'docker-hub-creds'
     DOCKERHUB_ORG   = 'aziztesteur95100'
-    GIT_REPO_URL    = 'https://github.com/Azizgithub95/mon-deuxieme-projet-docker.git' // Remplace si besoin
+    GIT_REPO_URL    = 'https://github.com/Azizgithub95/AIRBNB.git'
   }
 
   stages {
@@ -16,13 +16,12 @@ pipeline {
       }
     }
 
-   stage('Checkout') {
-  steps {
-    echo "🔄 Récupération du code source depuis GitHub..."
-    sh "git clone https://github.com/Azizgithub95/AIRBNB.git ."
-  }
-}
-
+    stage('Checkout') {
+      steps {
+        echo "🔄 Récupération du code source depuis GitHub..."
+        sh "git clone $GIT_REPO_URL ."
+      }
+    }
 
     stage('Build Docker image') {
       steps {
@@ -31,26 +30,24 @@ pipeline {
       }
     }
 
-    stage('Run all tests found in Docker') {
+    stage('Run tests in Docker') {
       steps {
         echo "🚀 Lancement des tests Cypress, Newman et K6 dans le conteneur..."
-        sh "docker run --rm $IMAGE_NAME"
+        sh "docker run --rm $IMAGE_NAME npm run test-all"
       }
     }
-stage('Deploy to Kubernetes') {
-  steps {
-    sh 'kubectl apply -f deployment.yaml'
-    sh 'kubectl get pods'
-    sh 'kubectl get services'
-  }
-}
 
+    stage('Deploy to Kubernetes') {
+      steps {
+        sh 'kubectl apply -f deployment.yaml'
+        sh 'kubectl get pods'
+        sh 'kubectl get services'
+      }
+    }
 
-
-   stage('Docker Build enfinnnnn ca DEVRA marche jespere c Push') {
+    stage('Push to Docker Hub') {
       steps {
         script {
-          // Remplacer "docker" par l'appel système
           def TAGGED_IMAGE = "${DOCKERHUB_ORG}/${IMAGE_NAME}:${env.BUILD_NUMBER}"
           sh "docker tag $IMAGE_NAME $TAGGED_IMAGE"
           withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDS}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {

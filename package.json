@@ -7,15 +7,11 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test-all": "npm run test:cypress && npm run test:postman && npm run test:k6",
     "test:cypress": "cypress run --spec cypress/e2e/rechercheDestination.cy.js",
     "test:postman": "newman run MOCK_AZIZ_SERVEUR.postman_collection.json",
-
-    "test:k6": "k6 run test_k6.js",
-     "start": "node server.js"
-
-    
-
+    "test:k6": "k6 run test_k6.js"
   },
   "dependencies": {
     "cypress": "^14.3.3",
