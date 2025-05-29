@@ -63,7 +63,7 @@ pipeline {
 
   post {
     always {
-      echo '✅ Pipeline terminé.'
+      echo '✅ Pipeline enfin terminé.'
     }
     failure {
       echo '❌ Échec du pipeline.'
