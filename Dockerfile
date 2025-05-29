@@ -28,6 +28,6 @@ RUN apt-get update && apt-get install -y \
     npm install -g newman && \
     npx cypress install
 
-EXPOSE 3000
+EXPOSE 80
 
 CMD ["npm", "run", "start"]
