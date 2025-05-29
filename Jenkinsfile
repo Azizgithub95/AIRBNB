@@ -8,10 +8,17 @@ pipeline {
   }
 
   stages {
+    stage('Clean Workspace') {
+      steps {
+        echo "🧹 Nettoyage du workspace..."
+        deleteDir()
+      }
+    }
 
     stage('Checkout') {
       steps {
-        git credentialsId: 'lier github', url: 'https://github.com/Azizgithub95/AIRBNB.git', branch: 'main'
+        echo "🔄 Récupération du code source depuis GitHub..."
+        git credentialsId: 'lier github', url: 'https://github.com/Azizgithub95/AIRBNB.git'
       }
     }
 
@@ -24,29 +31,29 @@ pipeline {
 
     stage('Run Cypress Tests') {
       steps {
-        echo "🚀 Lancement des tests Cypress..."
+        echo "🚀 Exécution des tests Cypress..."
         sh "docker run --rm $IMAGE_NAME npx cypress run || true"
       }
     }
 
     stage('Run Newman Tests') {
       steps {
-        echo "🧪 Lancement des tests Postman avec Newman..."
-        sh "docker run --rm $IMAGE_NAME newman run tests/postman_collection.json || true"
+        echo "🧪 Exécution des tests Postman (Newman)..."
+        sh "docker run --rm $IMAGE_NAME newman run ./tests/postman/collection.json || true"
       }
     }
 
     stage('Run K6 Tests (Cassis)') {
       steps {
-        echo "📈 Lancement des tests K6..."
-        sh "docker run --rm $IMAGE_NAME k6 run tests/test_k6.js || true"
+        echo "📊 Exécution des tests de charge avec K6..."
+        sh "docker run --rm $IMAGE_NAME k6 run ./tests/k6/test.js || true"
       }
     }
 
     stage('Run FoundHuman Tests') {
       steps {
-        echo "🤖 Simulation des tests FoundHuman..."
-        sh "echo '[INFO] Test FoundHuman simulé (aucune commande réelle)'"
+        echo "🧠 Exécution des tests FoundHuman (simulés)..."
+        sh "docker run --rm $IMAGE_NAME node ./tests/foundhuman/test.js || true"
       }
     }
 
@@ -67,7 +74,7 @@ pipeline {
 
     stage('Deploy to Kubernetes') {
       steps {
-        echo "🚀 Déploiement sur Kubernetes..."
+        echo "🚢 Déploiement sur Kubernetes..."
         sh "kubectl apply -f deployment.yaml"
         sh "kubectl get pods"
         sh "kubectl get services"
